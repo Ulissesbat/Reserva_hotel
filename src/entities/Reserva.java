@@ -2,12 +2,13 @@ package entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 import entities.enums.SituacaoReserva;
 
 public class Reserva {
+	
+	DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	
 	private String nomeResponsavel;
 	private LocalDateTime dataReserva;
@@ -68,8 +69,12 @@ public class Reserva {
 
 	@Override
 	public String toString() {
-		return "Reserva [Nome Responsavel=" + nomeResponsavel + ", data Reserva=" + dataReserva + ", data Entrada="
-				+ dataEntrada + ", data Saida=" + dataSaida + ", situca caoReseva=" + situcacaoReseva + "]";
+	    return "Reserva Criada:\nNome Responsavel=" + nomeResponsavel + 
+	           "\nData Reserva=" + dataReserva.format(fmt) + 
+	           "\nData Entrada=" + dataEntrada + 
+	           "\nData Saida=" + dataSaida + 
+	           "\nSituação Reserva=" + situcacaoReseva + "]";
 	}
+
 	
 }

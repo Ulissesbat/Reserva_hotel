@@ -4,37 +4,62 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import entities.enums.SituacaoApartamento;
 import entities.enums.SituacaoReserva;
+import entities.interfaces.ApartamentoInterface;
+import entities.interfaces.ReservaInterface;
 
-public class CheckInOut extends Reserva {
+public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 
-	private LocalDateTime entrada;
+	private Reserva reserva;
+    private Apartamento apartamento;
+	private LocalDate entrada;
 	private LocalDateTime saida;
 	private String placaCarro;
 	private Integer numeroNFS;
 	private Integer numeroCupomFiscal;
 	private Despesas despesas;
-	private double valorDiaria;
 	
 
-	public CheckInOut(String nomeResponsavel, LocalDateTime dataReserva, LocalDate dataEntrada, LocalDate dataSaida,
-			SituacaoReserva situcacaoReseva, LocalDateTime entrada, LocalDateTime saida, String placaCarro,
-			Integer numeroNFS, Integer numeroCupomFiscal, Despesas despesas, double valorDiaria) {
-		super(nomeResponsavel, dataReserva, dataEntrada, dataSaida, situcacaoReseva);
+	public CheckInOut(Reserva reserva, Apartamento apartamento, LocalDate entrada,String placaCarro) {
+		super();
+		this.reserva = reserva;
+		this.apartamento = apartamento;
 		this.entrada = entrada;
-		this.saida = saida;
 		this.placaCarro = placaCarro;
-		this.numeroNFS = numeroNFS;
-		this.numeroCupomFiscal = numeroCupomFiscal;
-		this.despesas = despesas;
-		this.valorDiaria = valorDiaria;
+	}
+	
+	public CheckInOut(Apartamento apartamento, LocalDateTime saida,
+            Integer numeroNFS, Integer numeroCupomFiscal, Despesas despesas) {
+        this.apartamento = apartamento;
+        this.saida = saida;
+        this.numeroNFS = numeroNFS;
+        this.numeroCupomFiscal = numeroCupomFiscal;
+        this.despesas = despesas;
+        
+    }
+
+	public Reserva getReserva() {
+		return reserva;
 	}
 
-	public LocalDateTime getEntrada() {
+	public void setReserva(Reserva reserva) {
+		this.reserva = reserva;
+	}
+
+	public Apartamento getApartamento() {
+		return apartamento;
+	}
+
+	public void setApartamento(Apartamento apartamento) {
+		this.apartamento = apartamento;
+	}
+
+	public LocalDate getEntrada() {
 		return entrada;
 	}
 
-	public void setEntrada(LocalDateTime entrada) {
+	public void setEntrada(LocalDate entrada) {
 		this.entrada = entrada;
 	}
 
@@ -78,19 +103,12 @@ public class CheckInOut extends Reserva {
 		this.despesas = despesas;
 	}
 
-	public double getValorDiaria() {
-		return valorDiaria;
-	}
 
-	public void setValorDiaria(double valorDiaria) {
-		this.valorDiaria = valorDiaria;
-	}
-	
 	// Método para calcular o valor base da estadia com base no valor da diária
     private double calcularValorBaseEstadia(Duration duracaoEstadia) {
         long diasEstadia = duracaoEstadia.toDays();
 
-        return valorDiaria * diasEstadia;
+        return apartamento.getValorDiaria() * diasEstadia;
     }
 
     // Método para calcular o valor total da estadia
@@ -103,4 +121,74 @@ public class CheckInOut extends Reserva {
 
         return valorTotal;
     }
+
+	@Override
+	public String getTipo() {
+		
+		return apartamento.getTipo();
+	}
+
+	@Override
+	public Integer getNumero() {
+		
+		return apartamento.getNumero();
+	}
+
+	@Override
+	public SituacaoApartamento getSituacaoApartamento() {
+		
+		return apartamento.getSituacaoApartamento();
+	}
+
+	@Override
+	public String getNomeResponsavel() {
+	
+		return reserva.getNomeResponsavel();
+	}
+
+	@Override
+	public LocalDateTime getDataReserva() {
+		
+		return reserva.getDataReserva();
+	}
+
+	@Override
+	public LocalDate getDataEntrada() {
+		
+		return reserva.getDataEntrada();
+	}
+
+	@Override
+	public LocalDate getDataSaida() {
+		
+		return reserva.getDataSaida();
+	}
+
+	@Override
+	public SituacaoReserva getSitucacaoReseva() {
+		
+		return reserva.getSitucacaoReseva();
+	}
+
+	@Override
+	public Double getValorDiaria() {
+		
+		return apartamento.getValorDiaria();
+	}
+
+	@Override
+	public String toString() {
+	    return "CheckIn [\n" +
+	           "  reserva=" + reserva + 
+	           ",\n  apartamento=" + apartamento + 
+	           ",\n  entrada=" + entrada + 
+	           ",\n  saida=" + saida + 
+	           ",\n  placaCarro=" + placaCarro + 
+	           ",\n  numeroNFS=" + numeroNFS + 
+	           ",\n  numeroCupomFiscal=" + numeroCupomFiscal + 
+	           ",\n  despesas=" + despesas + 
+	           "\n]";
+	}
+
+	
 }
