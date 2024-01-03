@@ -14,28 +14,26 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 	private Reserva reserva;
     private Apartamento apartamento;
 	private LocalDate entrada;
-	private LocalDateTime saida;
+	private LocalDate saida;
 	private String placaCarro;
 	private Integer numeroNFS;
 	private Integer numeroCupomFiscal;
 	private Despesas despesas;
 	
 
-	public CheckInOut(Reserva reserva, Apartamento apartamento, LocalDate entrada,String placaCarro) {
+	public CheckInOut(Reserva reserva, Apartamento apartamento, LocalDate entrada, LocalDate saida,String placaCarro) {
 		super();
 		this.reserva = reserva;
 		this.apartamento = apartamento;
 		this.entrada = entrada;
+		this.saida = saida;
 		this.placaCarro = placaCarro;
 	}
 	
-	public CheckInOut(Apartamento apartamento, LocalDateTime saida,
-            Integer numeroNFS, Integer numeroCupomFiscal, Despesas despesas) {
-        this.apartamento = apartamento;
-        this.saida = saida;
+	public CheckInOut(Apartamento apartamento,Integer numeroNFS, Integer numeroCupomFiscal) {
+        this.apartamento = apartamento;        
         this.numeroNFS = numeroNFS;
         this.numeroCupomFiscal = numeroCupomFiscal;
-        this.despesas = despesas;
         
     }
 
@@ -63,11 +61,11 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 		this.entrada = entrada;
 	}
 
-	public LocalDateTime getSaida() {
+	public LocalDate getSaida() {
 		return saida;
 	}
 
-	public void setSaida(LocalDateTime saida) {
+	public void setSaida(LocalDate saida) {
 		this.saida = saida;
 	}
 
@@ -105,19 +103,19 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 
 
 	// Método para calcular o valor base da estadia com base no valor da diária
-    private double calcularValorBaseEstadia(Duration duracaoEstadia) {
+    private double ValorBaseEstadia(Duration duracaoEstadia) {
         long diasEstadia = duracaoEstadia.toDays();
 
         return apartamento.getValorDiaria() * diasEstadia;
     }
 
     // Método para calcular o valor total da estadia
-    public double calcularValorTotalEstadia() {
+    public double TotalEstadia() {
         Duration duracaoEstadia = Duration.between(entrada, saida);
-        double valorTotal = calcularValorBaseEstadia(duracaoEstadia);
+        double valorTotal = ValorBaseEstadia(duracaoEstadia);
 
         // Adicionar despesas adicionais, se houver
-        valorTotal += (despesas != null ? despesas.calcularTotalDespesas() : 0.0);
+        valorTotal += (despesas != null ? despesas.totalDespesas() : 0.0);
 
         return valorTotal;
     }
@@ -178,17 +176,25 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 
 	@Override
 	public String toString() {
-	    return "CheckIn [\n" +
-	           "  reserva=" + reserva + 
-	           ",\n  apartamento=" + apartamento + 
-	           ",\n  entrada=" + entrada + 
-	           ",\n  saida=" + saida + 
-	           ",\n  placaCarro=" + placaCarro + 
-	           ",\n  numeroNFS=" + numeroNFS + 
-	           ",\n  numeroCupomFiscal=" + numeroCupomFiscal + 
-	           ",\n  despesas=" + despesas + 
-	           "\n]";
+	    StringBuilder sb = new StringBuilder("");
+
+	    sb.append("").append(apartamento).append(",\n");
+	    sb.append("  Entrada = ").append(entrada).append(",\n");
+	    sb.append("  Saida = ").append(saida).append(",\n");
+	    sb.append("  Placa Carro = ").append(placaCarro).append("\n");
+	    sb.append("--------------------------------------------");
+	    // Adiciona informações específicas do segundo construtor, se existirem
+	    if (numeroNFS != null && numeroCupomFiscal != null && despesas != null) {
+	        sb.append("  Numero NFS = ").append(numeroNFS).append(",\n");
+	        sb.append("  Numero Cupom Fiscal = ").append(numeroCupomFiscal).append(",\n");
+	        sb.append("  Despesas = ").append(String.format("%2f",despesas)).append("\n");
+	    }
+
+	    sb.append("");
+
+	    return sb.toString();
 	}
+
 
 	
 }

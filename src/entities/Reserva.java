@@ -69,11 +69,13 @@ public class Reserva {
 
 	@Override
 	public String toString() {
-	    return "Reserva Criada:\nNome Responsavel=" + nomeResponsavel + 
-	           "\nData Reserva=" + dataReserva.format(fmt) + 
-	           "\nData Entrada=" + dataEntrada + 
-	           "\nData Saida=" + dataSaida + 
-	           "\nSituação Reserva=" + situcacaoReseva + "]";
+	    return "\n-----------------Reserva Criada:----------------------" +
+	    		
+	    		"\nNome Responsavel = " + nomeResponsavel + 
+	           "\nData Reserva = " + dataReserva.format(fmt) + 
+	           "\nData Entrada = " + dataEntrada + 
+	           "\nData Saida = " + dataSaida + 
+	           "\nSituação Reserva = " + situcacaoReseva;
 	}
 
 	

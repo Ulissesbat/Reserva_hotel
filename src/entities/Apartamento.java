@@ -47,5 +47,16 @@ public class Apartamento {
 	public void setValorDiaria(Double valorDiaria) {
 		this.valorDiaria = valorDiaria;
 	}
+
+	@Override
+	public String toString() {
+	    return "-----------------Apartamento----------------\n" +
+	            "  Tipo = " + tipo + "\n" +
+	            "  Numero = " + numero + "\n" +
+	            "  Situacao Apartamento = " + situacaoApartamento + "\n" +
+	            "  Valor Diaria = " +String.format("%2f", valorDiaria);
+	}
+
+	
 	
 }
