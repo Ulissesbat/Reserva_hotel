@@ -1,8 +1,8 @@
 package entities;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import entities.enums.SituacaoApartamento;
 import entities.enums.SituacaoReserva;
@@ -30,10 +30,14 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 		this.placaCarro = placaCarro;
 	}
 	
-	public CheckInOut(Apartamento apartamento,Integer numeroNFS, Integer numeroCupomFiscal) {
-        this.apartamento = apartamento;        
+	public CheckInOut(LocalDate entrada, LocalDate saida,Apartamento apartamento,Integer numeroNFS, Integer numeroCupomFiscal,Despesas despesas,String placaCarro) {
+		this.entrada = entrada;
+		this.saida = saida;
+		this.apartamento = apartamento;        
         this.numeroNFS = numeroNFS;
         this.numeroCupomFiscal = numeroCupomFiscal;
+        this.despesas = despesas;
+        this.placaCarro = placaCarro;
         
     }
 
@@ -103,22 +107,22 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 
 
 	// Método para calcular o valor base da estadia com base no valor da diária
-    private double ValorBaseEstadia(Duration duracaoEstadia) {
-        long diasEstadia = duracaoEstadia.toDays();
-
-        return apartamento.getValorDiaria() * diasEstadia;
-    }
+	private double ValorBaseEstadia(LocalDate entrada, LocalDate saida) {
+	    long diasEstadia = ChronoUnit.DAYS.between(entrada, saida);
+	    return apartamento.getValorDiaria() * diasEstadia;
+	}
 
     // Método para calcular o valor total da estadia
-    public double TotalEstadia() {
-        Duration duracaoEstadia = Duration.between(entrada, saida);
-        double valorTotal = ValorBaseEstadia(duracaoEstadia);
 
-        // Adicionar despesas adicionais, se houver
-        valorTotal += (despesas != null ? despesas.totalDespesas() : 0.0);
+	public double TotalEstadia() {
+	    // Calcular o valor base da estadia
+	    double valorBaseEstadia = ValorBaseEstadia(entrada, saida);
 
-        return valorTotal;
-    }
+	    // Adicionar despesas adicionais, se houver
+	    double valorTotal = valorBaseEstadia + (despesas != null ? despesas.totalDespesas() : 0.0);
+
+	    return valorTotal;
+	}
 
 	@Override
 	public String getTipo() {
@@ -177,17 +181,23 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 	@Override
 	public String toString() {
 	    StringBuilder sb = new StringBuilder("");
-
-	    sb.append("").append(apartamento).append(",\n");
-	    sb.append("  Entrada = ").append(entrada).append(",\n");
-	    sb.append("  Saida = ").append(saida).append(",\n");
+	    
+	    sb.append("  Tipo = ").append(apartamento.getTipo()).append("\n");
+	    sb.append("  Numero = ").append(apartamento.getNumero()).append("\n");
+	    sb.append("  Situacao = ").append(apartamento.getSituacaoApartamento()).append("\n");
+	    sb.append("  Valor diaria = ").append(String.format("%.2f", getValorDiaria())).append("\n");
+	    sb.append("  Entrada = ").append(entrada).append("\n");
+	    sb.append("  Saida = ").append(saida).append("\n");
 	    sb.append("  Placa Carro = ").append(placaCarro).append("\n");
-	    sb.append("--------------------------------------------");
+	    
 	    // Adiciona informações específicas do segundo construtor, se existirem
 	    if (numeroNFS != null && numeroCupomFiscal != null && despesas != null) {
-	        sb.append("  Numero NFS = ").append(numeroNFS).append(",\n");
-	        sb.append("  Numero Cupom Fiscal = ").append(numeroCupomFiscal).append(",\n");
-	        sb.append("  Despesas = ").append(String.format("%2f",despesas)).append("\n");
+	        sb.append("  Numero NFS = ").append(numeroNFS).append("\n");
+	        sb.append("  Numero cupom fiscal = ").append(numeroCupomFiscal).append("\n");
+	        sb.append("  Despesas adicionais = ").append(String.format("%.2f",despesas.totalDespesas())).append("\n");
+	        double estadiaSemDespesas = ValorBaseEstadia(entrada, saida);
+	        sb.append("  Estadia = ").append(String.format("%.2f",estadiaSemDespesas)).append("\n");
+	        sb.append("  Valor total = ").append(String.format("%.2f",TotalEstadia())).append("\n");
 	    }
 
 	    sb.append("");
