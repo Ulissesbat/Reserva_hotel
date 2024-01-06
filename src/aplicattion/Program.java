@@ -101,42 +101,35 @@ public class Program {
 		System.out.println("Deseja incluir um Check Out? SIM / NAO");
 		resp = sc.next().toLowerCase().charAt(0);
 		sc.nextLine();
-
+		
 		if (resp == 's') {
-			System.out.println("Numero do apartamento: ");
-			int numeroApartamentoCheckOut = sc.nextInt();
+		    System.out.println("Numero do apartamento: ");
+		    int numeroApartamentoCheckOut = sc.nextInt();
 
-			// Verifique se o número do apartamento do check-out é igual ao número do
-			// apartamento do check-in
-			if (numeroApartamentoCheckOut == apartamento.getNumero()) {
-				System.out.println("Numero Nota Fiscal: ");
-				int notaFiscal = sc.nextInt();
-				System.out.println("Numero Cupom Fiscal: ");
-				int cupomFiscal = sc.nextInt();
-				System.out.println("Despesas adicionais valor: ");
-				double despesasAdicional = sc.nextDouble();
-				Despesas despesas = new Despesas(despesasAdicional);
-				// Criar e inicializar o objeto CheckInOut para o check-out
-				
-				CheckInOut out = new CheckInOut(reserva.getDataEntrada(), reserva.getDataSaida(), apartamento,
-						notaFiscal, cupomFiscal, despesas, placa);
+		    // Enquanto o número do apartamento for diferente, continue pedindo o número correto
+		    while (numeroApartamentoCheckOut != apartamento.getNumero()) {
+		        System.out.println("O número do apartamento não corresponde ao check-in.");
+		        System.out.println("Por favor, insira o número correto do apartamento: ");
+		        numeroApartamentoCheckOut = sc.nextInt(); // Solicita novamente o número
+		    }
 
-				System.out.println("-------------CheckOut Realizado com sucesso!------------");
-				System.out.println(out.toString());
-				System.out.println("-------------------------------------------------------");
-				// ... Restante do código do check-out ...
-			} else {
-				System.out.println("O número do apartamento não corresponde ao check-in.");
-				// Tratar isso da maneira apropriada, talvez lançar uma exceção ou pedir o
-				// número novamente.
-				System.out.println("Novo numero do apartamento: ");
-				int novoNumeroApartamento = sc.nextInt();
-				apartamento.setNumero(novoNumeroApartamento);
-			}
-		} else {
-			System.out.println("Programa encerrado.");
-			System.exit(0);
+		    System.out.println("Numero Nota Fiscal: ");
+		    int notaFiscal = sc.nextInt();
+		    System.out.println("Numero Cupom Fiscal: ");
+		    int cupomFiscal = sc.nextInt();
+		    System.out.println("Despesas adicionais valor: ");
+		    double despesasAdicional = sc.nextDouble();
+		    Despesas despesas = new Despesas(despesasAdicional);
+
+		    CheckInOut out = new CheckInOut(reserva.getDataEntrada(), reserva.getDataSaida(), apartamento,
+		            notaFiscal, cupomFiscal, despesas, placa);
+
+		    System.out.println("-------------CheckOut Realizado com sucesso!------------");
+		    System.out.println(out.toString());
+		    System.out.println("-------------------------------------------------------");
+		    // ... Restante do código do check-out ...
 		}
+
 		sc.close();
 	}
 
