@@ -23,7 +23,7 @@ public class Program {
 		DateTimeFormatter fmt1 = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
 		System.out.println("Iniciar uma reserva: ");
-		System.out.println("--------------------------------------------");
+		System.out.println("-------------------------------------");
 		System.out.println();
 		System.out.println("Nome do responsavel: ");
 		String nome = sc.nextLine();
@@ -62,7 +62,7 @@ public class Program {
 		Reserva reserva = new Reserva(nome, dataHoraAtual, dataEntrada, dataSaida, situacaoReserva);
 
 		System.out.println(reserva);
-		System.out.println("-------------------------------------------------------");
+		System.out.println("--------------------------------------------------");
 		System.out.println();
 
 		System.out.println("Deseja incluir um Check In para a reserva? SIM / NAO");
