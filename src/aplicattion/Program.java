@@ -23,7 +23,7 @@ public class Program {
 		DateTimeFormatter fmt1 = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
 		System.out.println("Iniciar uma reserva: ");
-		System.out.println("-------------------------------------");
+		System.out.println("-----------------------------------");
 		System.out.println();
 		System.out.println("Nome do responsavel: ");
 		String nome = sc.nextLine();
@@ -38,7 +38,7 @@ public class Program {
 
 			// Validar se a data de entrada é posterior ao dia atual
 			if (dataEntrada.isBefore(LocalDate.now())) {
-				System.out.println("A data de entrada deve ser posterior ao dia atual. Tente novamente.");
+				System.out.println("A data de entrada deve ser posterior ao dia atual. Tente novamente. ");
 			}
 		} while (dataEntrada.isBefore(LocalDate.now()));
 
@@ -50,7 +50,7 @@ public class Program {
 
 			// Validar se a data de saída é posterior à data de entrada
 			if (dataSaida.isBefore(dataEntrada)) {
-				System.out.println("A data de saída deve ser posterior à data de entrada. Tente novamente.");
+				System.out.println("A data de saída deve ser posterior à data de entrada. Tente novamente. ");
 			}
 		} while (dataSaida.isBefore(dataEntrada));
 
@@ -65,7 +65,7 @@ public class Program {
 		System.out.println("--------------------------------------------------");
 		System.out.println();
 
-		System.out.println("Deseja incluir um Check In para a reserva? SIM / NAO");
+		System.out.println("Deseja incluir um Check In para a reserva? SIM / NAO ");
 		char resp = sc.next().toLowerCase().charAt(0);
 		sc.nextLine();
 		Apartamento apartamento = null;
