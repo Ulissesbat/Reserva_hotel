@@ -65,7 +65,7 @@ public class Program {
 		System.out.println("--------------------------------------------------");
 		System.out.println();
 
-		System.out.println("Deseja incluir um Check In para a reserva? SIM / NAO ");
+		System.out.println("Incluir um Check In para a reserva? SIM / NAO ");
 		char resp = sc.next().toLowerCase().charAt(0);
 		sc.nextLine();
 		Apartamento apartamento = null;
