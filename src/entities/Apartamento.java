@@ -9,10 +9,9 @@ public class Apartamento {
 	private SituacaoApartamento situacaoApartamento;
 	private Double valorDiaria;
 	
-	public Apartamento(String tipo, Integer numero, SituacaoApartamento situacaoApartamento, Double valorDiaria) {
+	public Apartamento(String tipo, Integer numero, Double valorDiaria) {
 		this.tipo = tipo;
 		this.numero = numero;
-		this.situacaoApartamento = situacaoApartamento;
 		this.valorDiaria = valorDiaria;
 	}
 

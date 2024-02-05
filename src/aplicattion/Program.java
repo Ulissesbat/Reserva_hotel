@@ -3,6 +3,8 @@ package aplicattion;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -15,6 +17,7 @@ import entities.enums.SituacaoReserva;
 
 public class Program {
 
+	@SuppressWarnings("null")
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
@@ -30,30 +33,48 @@ public class Program {
 		LocalDateTime dataHoraAtual = LocalDateTime.now();
 		System.out.println("Data e hora da reserva: " + fmt1.format(dataHoraAtual));
 
-		// Obter a data de entrada
-		LocalDate dataEntrada;
-		do {
-			System.out.println("Data de entrada dd/MM/yyyy: ");
-			dataEntrada = LocalDate.parse(sc.next(), fmt);
+		LocalDate dataEntrada = null;
+		LocalDate dataSaida = null;
+		try {
+			// Obter a data de entrada
 
-			// Validar se a data de entrada é posterior ao dia atual
-			if (dataEntrada.isBefore(LocalDate.now())) {
-				System.out.println("A data de entrada deve ser posterior ao dia atual. Tente novamente. ");
-			}
-		} while (dataEntrada.isBefore(LocalDate.now()));
+			do {
+				try {
+					System.out.println("Data de entrada dd/MM/yyyy: ");
+					dataEntrada = LocalDate.parse(sc.next(), fmt);
 
-		// Obter a data de saída
-		LocalDate dataSaida;
-		do {
-			System.out.println("Data de saida dd/MM/yyyy:  ");
-			dataSaida = LocalDate.parse(sc.next(), fmt);
+					// Validar se a data de entrada é posterior ao dia atual
+					if (dataEntrada.isBefore(LocalDate.now())) {
+						System.out.println("A data de entrada deve ser posterior ao dia atual. Tente novamente. ");
+					}
+				} catch (DateTimeParseException e) {
+					System.out.println("Erro ao analisar a data. Formato incorreto. Tente novamente.");
+					sc.nextLine(); // Limpar o buffer do scanner
+					dataEntrada = null; // Definir a data como nula para repetir o loop
+				}
+			} while (dataEntrada == null || dataEntrada.isBefore(LocalDate.now()));
 
-			// Validar se a data de saída é posterior à data de entrada
-			if (dataSaida.isBefore(dataEntrada)) {
-				System.out.println("A data de saída deve ser posterior à data de entrada. Tente novamente. ");
-			}
-		} while (dataSaida.isBefore(dataEntrada));
+			// Obter a data de saída
 
+			do {
+				try {
+					System.out.println("Data de saida dd/MM/yyyy: ");
+					dataSaida = LocalDate.parse(sc.next(), fmt);
+
+					// Validar se a data de saída é posterior à data de entrada
+					if (dataSaida.isBefore(dataEntrada)) {
+						System.out.println("A data de saída deve ser posterior à data de entrada. Tente novamente. ");
+					}
+				} catch (DateTimeParseException e) {
+					System.out.println("Erro ao analisar a data. Formato incorreto. Tente novamente.");
+					sc.nextLine(); // Limpar o buffer do scanner
+					dataSaida = null; // Definir a data como nula para repetir o loop
+				}
+			} while (dataSaida == null || dataSaida.isBefore(dataEntrada));
+		} catch (InputMismatchException e) {
+			System.out.println("Erro de digitação " + e.toString());
+			e.printStackTrace();
+		}
 		System.out.println("Situacao da reserva (REALIZADA, CONFIRMADA, CANCELADA, EFETIVA): ");
 		String situacaoInput = sc.next().toUpperCase();
 
@@ -62,10 +83,11 @@ public class Program {
 		Reserva reserva = new Reserva(nome, dataHoraAtual, dataEntrada, dataSaida, situacaoReserva);
 
 		System.out.println(reserva);
+
 		System.out.println("--------------------------------------------------");
 		System.out.println();
 
-		System.out.println("Deseja incluir um Check In para a reserva? SIM / NAO ");
+		System.out.println("Incluir um Check In para a reserva? SIM / NAO ");
 		char resp = sc.next().toLowerCase().charAt(0);
 		sc.nextLine();
 		Apartamento apartamento = null;
@@ -75,14 +97,14 @@ public class Program {
 			String tipo = sc.nextLine();
 			System.out.println("Numero do apartamento: ");
 			int numero = sc.nextInt();
-			System.out.println("Situacao do apartamento: ");
-			String situacaoAp = sc.next().toUpperCase();
-			SituacaoApartamento situacaoApartamento = SituacaoApartamento.valueOf(situacaoAp);
 			System.out.println("Valor da diaria: ");
 			double diaria = sc.nextDouble();
 
-			apartamento = new Apartamento(tipo, numero, situacaoApartamento, diaria);
+			apartamento = new Apartamento(tipo, numero, diaria);
 
+			if (apartamento != null) {
+				apartamento.setSituacaoApartamento(SituacaoApartamento.OCUPADO);
+			}
 			System.out.println("Placa do carro: ");
 			placa = sc.next();
 
@@ -92,6 +114,7 @@ public class Program {
 
 			System.out.println("-------------CheckIn Realizado com sucesso!------------");
 			System.out.println(in.toString());
+
 			System.out.println("-------------------------------------------------------");
 			System.out.println();
 		} else {
@@ -101,33 +124,41 @@ public class Program {
 		System.out.println("Deseja incluir um Check Out? SIM / NAO");
 		resp = sc.next().toLowerCase().charAt(0);
 		sc.nextLine();
-		
+
 		if (resp == 's') {
-		    System.out.println("Numero do apartamento: ");
-		    int numeroApartamentoCheckOut = sc.nextInt();
+			apartamento.setSituacaoApartamento(SituacaoApartamento.DISPONIVEL);
+			System.out.println("Numero do apartamento: ");
+			int numeroApartamentoCheckOut = sc.nextInt();
 
-		    // Enquanto o número do apartamento for diferente, continue pedindo o número correto
-		    while (numeroApartamentoCheckOut != apartamento.getNumero()) {
-		        System.out.println("O número do apartamento não corresponde ao check-in.");
-		        System.out.println("Por favor, insira o número correto do apartamento: ");
-		        numeroApartamentoCheckOut = sc.nextInt(); // Solicita novamente o número
-		    }
+			// Enquanto o número do apartamento for diferente, continue pedindo o número
+			// correto
+			while (numeroApartamentoCheckOut != apartamento.getNumero()) {
+				System.out.println("O número do apartamento não corresponde ao check-in.");
+				System.out.println("Por favor, insira o número correto do apartamento: ");
+				numeroApartamentoCheckOut = sc.nextInt(); // Solicita novamente o número
+			}
+			try {
+				System.out.println("Numero Nota Fiscal: ");
+				int notaFiscal = sc.nextInt();
+				System.out.println("Numero Cupom Fiscal: ");
+				int cupomFiscal = sc.nextInt();
+				System.out.println("Despesas adicionais valor: ");
+				double despesasAdicional = sc.nextDouble();
+				Despesas despesas = new Despesas(despesasAdicional);
 
-		    System.out.println("Numero Nota Fiscal: ");
-		    int notaFiscal = sc.nextInt();
-		    System.out.println("Numero Cupom Fiscal: ");
-		    int cupomFiscal = sc.nextInt();
-		    System.out.println("Despesas adicionais valor: ");
-		    double despesasAdicional = sc.nextDouble();
-		    Despesas despesas = new Despesas(despesasAdicional);
+				CheckInOut out = new CheckInOut(reserva.getDataEntrada(), reserva.getDataSaida(), apartamento,
+						notaFiscal, cupomFiscal, despesas, placa);
 
-		    CheckInOut out = new CheckInOut(reserva.getDataEntrada(), reserva.getDataSaida(), apartamento,
-		            notaFiscal, cupomFiscal, despesas, placa);
+				System.out.println("-------------CheckOut Realizado com sucesso!------------");
+				System.out.println(out.toString());
+				System.out.println("-------------------------------------------------------");
+				// ... Restante do código do check-out ...
+			} catch (InputMismatchException e) {
+				System.out.println("Erro de digitação " + e.toString());
+				e.printStackTrace();
+				;
+			}
 
-		    System.out.println("-------------CheckOut Realizado com sucesso!------------");
-		    System.out.println(out.toString());
-		    System.out.println("-------------------------------------------------------");
-		    // ... Restante do código do check-out ...
 		}
 
 		sc.close();
