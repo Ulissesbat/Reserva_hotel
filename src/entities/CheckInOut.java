@@ -114,11 +114,9 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 	// Método para calcular o valor total da estadia
 
 	public double TotalEstadia() {
-		// Calcular o valor base da estadia
-		double valorBaseEstadia = ValorBaseEstadia(entrada, saida);
-
+	
 		// Adicionar despesas adicionais, se houver
-		double valorTotal = valorBaseEstadia + (despesas != null ? despesas.totalDespesas() : 0.0);
+		double valorTotal = ValorBaseEstadia(entrada, entrada) + (despesas != null ? despesas.totalDespesas() : 0.0);
 
 		return valorTotal;
 	}
@@ -191,15 +189,15 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 
 		// Adiciona informações específicas do segundo construtor, se existirem
 		if (numeroNFS != null && numeroCupomFiscal != null && despesas != null) {
-			sb.append("");
+			sb.append("\n");
 			sb.append("  Numero NFS = ").append(numeroNFS).append("\n");
 			sb.append("  Numero cupom fiscal = ").append(numeroCupomFiscal).append("\n");
 			double estadiaSemDespesas = ValorBaseEstadia(entrada, saida);
-			sb.append("");
+			sb.append("\n");
 			sb.append("  Estadia = ").append(String.format("%.2f", estadiaSemDespesas)).append("\n");
 			sb.append("  Valor total = ").append(String.format("%.2f", TotalEstadia())).append("\n");
 			sb.append("  Despesas adicionais = ").append(String.format("%.2f", despesas.totalDespesas())).append("\n");
-			sb.append("");
+			sb.append("\n");
 			sb.append("Produtos consumidos:\n");
 			sb.append("");
 			if (despesas != null) {
@@ -209,7 +207,7 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 			}
 		}
 
-		sb.append("");
+		sb.append("\n");
 
 		return sb.toString();
 	}
