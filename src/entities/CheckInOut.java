@@ -12,16 +12,15 @@ import entities.interfaces.ReservaInterface;
 public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 
 	private Reserva reserva;
-    private Apartamento apartamento;
+	private Apartamento apartamento;
 	private LocalDate entrada;
 	private LocalDate saida;
 	private String placaCarro;
 	private Integer numeroNFS;
 	private Integer numeroCupomFiscal;
 	private Despesas despesas;
-	
 
-	public CheckInOut(Reserva reserva, Apartamento apartamento, LocalDate entrada, LocalDate saida,String placaCarro) {
+	public CheckInOut(Reserva reserva, Apartamento apartamento, LocalDate entrada, LocalDate saida, String placaCarro) {
 		super();
 		this.reserva = reserva;
 		this.apartamento = apartamento;
@@ -29,17 +28,18 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 		this.saida = saida;
 		this.placaCarro = placaCarro;
 	}
-	
-	public CheckInOut(LocalDate entrada, LocalDate saida,Apartamento apartamento,Integer numeroNFS, Integer numeroCupomFiscal,Despesas despesas,String placaCarro) {
+
+	public CheckInOut(LocalDate entrada, LocalDate saida, Apartamento apartamento, Integer numeroNFS,
+			Integer numeroCupomFiscal, Despesas despesas, String placaCarro) {
 		this.entrada = entrada;
 		this.saida = saida;
-		this.apartamento = apartamento;        
-        this.numeroNFS = numeroNFS;
-        this.numeroCupomFiscal = numeroCupomFiscal;
-        this.despesas = despesas;
-        this.placaCarro = placaCarro;
-        
-    }
+		this.apartamento = apartamento;
+		this.numeroNFS = numeroNFS;
+		this.numeroCupomFiscal = numeroCupomFiscal;
+		this.despesas = despesas;
+		this.placaCarro = placaCarro;
+
+	}
 
 	public Reserva getReserva() {
 		return reserva;
@@ -105,106 +105,113 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface {
 		this.despesas = despesas;
 	}
 
-
 	// Método para calcular o valor base da estadia com base no valor da diária
 	private double ValorBaseEstadia(LocalDate entrada, LocalDate saida) {
-	    long diasEstadia = ChronoUnit.DAYS.between(entrada, saida);
-	    return apartamento.getValorDiaria() * diasEstadia;
+		long diasEstadia = ChronoUnit.DAYS.between(entrada, saida);
+		return apartamento.getValorDiaria() * diasEstadia;
 	}
 
-    // Método para calcular o valor total da estadia
+	// Método para calcular o valor total da estadia
 
 	public double TotalEstadia() {
-	    // Calcular o valor base da estadia
-	    double valorBaseEstadia = ValorBaseEstadia(entrada, saida);
+		// Calcular o valor base da estadia
+		double valorBaseEstadia = ValorBaseEstadia(entrada, saida);
 
-	    // Adicionar despesas adicionais, se houver
-	    double valorTotal = valorBaseEstadia + (despesas != null ? despesas.totalDespesas() : 0.0);
+		// Adicionar despesas adicionais, se houver
+		double valorTotal = valorBaseEstadia + (despesas != null ? despesas.totalDespesas() : 0.0);
 
-	    return valorTotal;
+		return valorTotal;
 	}
 
 	@Override
 	public String getTipo() {
-		
+
 		return apartamento.getTipo();
 	}
 
 	@Override
 	public Integer getNumero() {
-		
+
 		return apartamento.getNumero();
 	}
 
 	@Override
 	public SituacaoApartamento getSituacaoApartamento() {
-		
+
 		return apartamento.getSituacaoApartamento();
 	}
 
 	@Override
 	public String getNomeResponsavel() {
-	
+
 		return reserva.getNomeResponsavel();
 	}
 
 	@Override
 	public LocalDateTime getDataReserva() {
-		
+
 		return reserva.getDataReserva();
 	}
 
 	@Override
 	public LocalDate getDataEntrada() {
-		
+
 		return reserva.getDataEntrada();
 	}
 
 	@Override
 	public LocalDate getDataSaida() {
-		
+
 		return reserva.getDataSaida();
 	}
 
 	@Override
 	public SituacaoReserva getSitucacaoReseva() {
-		
+
 		return reserva.getSitucacaoReseva();
 	}
 
 	@Override
 	public Double getValorDiaria() {
-		
+
 		return apartamento.getValorDiaria();
 	}
 
 	@Override
 	public String toString() {
-	    StringBuilder sb = new StringBuilder("");
-	    
-	    sb.append("  Tipo = ").append(apartamento.getTipo()).append("\n");
-	    sb.append("  Numero = ").append(apartamento.getNumero()).append("\n");
-	    sb.append("  Situacao = ").append(apartamento.getSituacaoApartamento()).append("\n");
-	    sb.append("  Valor diaria = ").append(String.format("%.2f", getValorDiaria())).append("\n");
-	    sb.append("  Entrada = ").append(entrada).append("\n");
-	    sb.append("  Saida = ").append(saida).append("\n");
-	    sb.append("  Placa Carro = ").append(placaCarro).append("\n");
-	    
-	    // Adiciona informações específicas do segundo construtor, se existirem
-	    if (numeroNFS != null && numeroCupomFiscal != null && despesas != null) {
-	        sb.append("  Numero NFS = ").append(numeroNFS).append("\n");
-	        sb.append("  Numero cupom fiscal = ").append(numeroCupomFiscal).append("\n");
-	        sb.append("  Despesas adicionais = ").append(String.format("%.2f",despesas.totalDespesas())).append("\n");
-	        double estadiaSemDespesas = ValorBaseEstadia(entrada, saida);
-	        sb.append("  Estadia = ").append(String.format("%.2f",estadiaSemDespesas)).append("\n");
-	        sb.append("  Valor total = ").append(String.format("%.2f",TotalEstadia())).append("\n");
-	    }
+		StringBuilder sb = new StringBuilder("");
 
-	    sb.append("");
+		sb.append("  Tipo = ").append(apartamento.getTipo()).append("\n");
+		sb.append("  Numero = ").append(apartamento.getNumero()).append("\n");
+		sb.append("  Situacao = ").append(apartamento.getSituacaoApartamento()).append("\n");
+		sb.append("  Valor diaria = ").append(String.format("%.2f", getValorDiaria())).append("\n");
+		sb.append("  Entrada = ").append(entrada).append("\n");
+		sb.append("  Saida = ").append(saida).append("\n");
+		sb.append("  Placa Carro = ").append(placaCarro).append("\n");
 
-	    return sb.toString();
+		// Adiciona informações específicas do segundo construtor, se existirem
+		if (numeroNFS != null && numeroCupomFiscal != null && despesas != null) {
+			sb.append("");
+			sb.append("  Numero NFS = ").append(numeroNFS).append("\n");
+			sb.append("  Numero cupom fiscal = ").append(numeroCupomFiscal).append("\n");
+			double estadiaSemDespesas = ValorBaseEstadia(entrada, saida);
+			sb.append("");
+			sb.append("  Estadia = ").append(String.format("%.2f", estadiaSemDespesas)).append("\n");
+			sb.append("  Valor total = ").append(String.format("%.2f", TotalEstadia())).append("\n");
+			sb.append("  Despesas adicionais = ").append(String.format("%.2f", despesas.totalDespesas())).append("\n");
+			sb.append("");
+			sb.append("Produtos consumidos:\n");
+			sb.append("");
+			if (despesas != null) {
+				despesas.produtos.forEach((nomeProduto, valorProduto) -> {
+					sb.append("Item: ").append(nomeProduto).append(", Valor: ").append(String.format("%.2f", valorProduto)).append("\n");
+				});
+			}
+		}
+
+		sb.append("");
+
+		return sb.toString();
 	}
 
-
-	
 }

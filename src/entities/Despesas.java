@@ -1,27 +1,30 @@
 package entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Despesas {
 
-	private Double valor;
-	
-	public Despesas( Double valor) {
-		
-		this.valor = valor;
+	Map<String, Double> produtos = new HashMap<>();
+
+	public Despesas() {
+	    
 	}
 
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
+	public void adicionarProduto(String nomeProduto, Double valorProduto) {
+		produtos.put(nomeProduto, valorProduto);
 	}
 
 	public double totalDespesas() {
-		
-		return valor;
+		double total = 0.0;
+
+		// Adiciona o valor de cada produto ao total
+		for (Double valorProduto : produtos.values()) {
+			total += valorProduto;
+		}
+
+		return total;
 	}
 
+	
 }
-
-

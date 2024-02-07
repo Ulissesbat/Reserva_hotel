@@ -142,9 +142,27 @@ public class Program {
 				int notaFiscal = sc.nextInt();
 				System.out.println("Numero Cupom Fiscal: ");
 				int cupomFiscal = sc.nextInt();
-				System.out.println("Despesas adicionais valor: ");
-				double despesasAdicional = sc.nextDouble();
-				Despesas despesas = new Despesas(despesasAdicional);
+				System.out.println("Existe Despesas adicionais? (sim / nao): ");
+				char resposta = sc.next().toLowerCase().charAt(0);
+				sc.nextLine();
+
+				Despesas despesas = new Despesas(); // Inicializa despesas com valor zero
+
+				if (resposta == 's') {
+				   do {
+				        System.out.println("Nome do produto: ");
+				        String nomeProd = sc.nextLine();
+				        System.out.println("Valor do produto: ");
+				        Double valorProd = sc.nextDouble();
+
+				        // Adiciona o produto à lista de despesas
+				        despesas.adicionarProduto(nomeProd, valorProd);
+
+				        System.out.println("Deseja adicionar mais produtos? (sim / nao): ");
+				        resposta = sc.next().toLowerCase().charAt(0);
+				        sc.nextLine();
+				    }while(resposta == 's');
+				}
 
 				CheckInOut out = new CheckInOut(reserva.getDataEntrada(), reserva.getDataSaida(), apartamento,
 						notaFiscal, cupomFiscal, despesas, placa);
