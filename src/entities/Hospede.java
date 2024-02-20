@@ -1,100 +1,159 @@
 package entities;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import entities.enums.SituacaoReserva;
 
-public class Hospede extends Reserva {
+public class Hospede {
 	
-	private String nome;
-	private Date dataNascimento;
-	private String sexo;
-	private Integer cep;
-	private String rua;
-	private Integer numeroRua;
-	private String bairro;
-	private String cidade;
-	private String estado;
-	private Integer documeto;
+	private Integer id;
+	private String Nome;
+	private Date dataReserva;
+	private Date entrada;
+	private Date saida;
+	private String tipo;
+	private Integer numero;
 	
+	private SituacaoReserva situacaoReserva;
 	
+	private String email;
+	private String documento;
+	private Double valorDiaria;
+	private Double valorTotal;
 	
-	public Hospede(String nomeResponsavel, LocalDateTime dataReserva, LocalDate dataEntrada, LocalDate dataSaida,
-			SituacaoReserva situcacaoReseva, String nome, Date dataNascimento, String sexo, Integer cep, String rua,
-			Integer numeroRua, String bairro, String cidade, String estado, Integer documeto) {
-		super(nomeResponsavel, dataReserva, dataEntrada, dataSaida, situcacaoReseva);
-		this.nome = nome;
-		this.dataNascimento = dataNascimento;
-		this.sexo = sexo;
-		this.cep = cep;
-		this.rua = rua;
-		this.numeroRua = numeroRua;
-		this.bairro = bairro;
-		this.cidade = cidade;
-		this.estado = estado;
-		this.documeto = documeto;
+	public Hospede() {
+		
 	}
+
+	public Hospede(Integer id, String nome, Date dataReserva, Date entrada, Date saida, String tipo, Integer numero,
+			SituacaoReserva situacaoReserva, String email, String documento, Double valorDiaria, Double valorTotal) {
+		
+		this.Nome = nome;
+		this.id = id;
+		this.dataReserva = dataReserva;
+		this.entrada = entrada;
+		this.saida = saida;
+		this.tipo = tipo;
+		this.numero = numero;
+		this.situacaoReserva = situacaoReserva;
+		this.email = email;
+		this.documento = documento;
+		this.valorDiaria = valorDiaria;
+		this.valorTotal = valorTotal;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getNome() {
-		return nome;
+		return Nome;
 	}
+
 	public void setNome(String nome) {
-		this.nome = nome;
+		Nome = nome;
 	}
-	public Date getDataNascimento() {
-		return dataNascimento;
+
+	public Date getDataReserva() {
+		return dataReserva;
 	}
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
+
+	public void setDataReserva(Date dataReserva) {
+		this.dataReserva = dataReserva;
 	}
-	public String getSexo() {
-		return sexo;
+
+	public Date getEntrada() {
+		return entrada;
 	}
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
+
+	public void setEntrada(Date entrada) {
+		this.entrada = entrada;
 	}
-	public Integer getCep() {
-		return cep;
+
+	public Date getSaida() {
+		return saida;
 	}
-	public void setCep(Integer cep) {
-		this.cep = cep;
+
+	public void setSaida(Date saida) {
+		this.saida = saida;
 	}
-	public String getRua() {
-		return rua;
+
+	public SituacaoReserva getSituacaoReserva() {
+		return situacaoReserva;
 	}
-	public void setRua(String rua) {
-		this.rua = rua;
+
+	public void setSituacaoReserva(SituacaoReserva situacaoReserva) {
+		this.situacaoReserva = situacaoReserva;
 	}
-	public Integer getNumeroRua() {
-		return numeroRua;
+
+	public String getEmail() {
+		return email;
 	}
-	public void setNumeroRua(Integer numeroRua) {
-		this.numeroRua = numeroRua;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public String getBairro() {
-		return bairro;
+
+	public String getDocumento() {
+		return documento;
 	}
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
 	}
-	public String getCidade() {
-		return cidade;
+
+	public String getTipo() {
+		return tipo;
 	}
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
-	public String getEstado() {
-		return estado;
+
+	public Integer getNumero() {
+		return numero;
 	}
-	public void setEstado(String estado) {
-		this.estado = estado;
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
 	}
-	public Integer getDocumeto() {
-		return documeto;
+
+	public Double getValorDiaria() {
+		return valorDiaria;
 	}
-	public void setDocumeto(Integer documeto) {
-		this.documeto = documeto;
+
+	public void setValorDiaria(Double valorDiaria) {
+		this.valorDiaria = valorDiaria;
+	}
+
+	public Double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	@Override
+	public String toString() {
+		return "\nHospede "
+				+ "\nNome = " + Nome + 
+				"\n, dataReserva = " + dataReserva + 
+				"\n, entrada = " + entrada + 
+				"\n, saida = " + saida + 
+				"\n, situacaoReserva = " + situacaoReserva + 
+				"\n, email = " + email + 
+				"\n, documento = " + documento+ 
+				"\n, valor Diaria = " + valorTotal+ 
+				"\n, Tipo do Apartamento = " + tipo +
+				"\n, Numero do Apartamento = " + numero +
+				"\n, Valor Total  = " + valorTotal;
 	}
 	
+	
+
 }

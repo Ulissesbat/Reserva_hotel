@@ -1,8 +1,12 @@
 package entities;
 
+import java.io.Serializable;
+
 import entities.enums.SituacaoApartamento;
 
-public class Apartamento {
+public class Apartamento implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String tipo;
 	private Integer numero;

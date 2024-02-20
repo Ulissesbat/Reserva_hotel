@@ -1,26 +1,33 @@
 package entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import entities.enums.SituacaoReserva;
 
-public class Reserva {
+public class Reserva implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	
 	private String nomeResponsavel;
+	private String email;
+	private String documento;
 	private LocalDateTime dataReserva;
 	private LocalDate dataEntrada;
 	private LocalDate dataSaida;
 	
 	private SituacaoReserva situcacaoReseva;
 
-	public Reserva(String nomeResponsavel, LocalDateTime dataReserva, LocalDate dataEntrada, LocalDate dataSaida,
+	public Reserva(String nomeResponsavel, String email, String documento, LocalDateTime dataReserva, LocalDate dataEntrada, LocalDate dataSaida,
 			SituacaoReserva situcacaoReseva) {
 		super();
 		this.nomeResponsavel = nomeResponsavel;
+		this.email = email;
+		this.documento = documento;
 		this.dataReserva = dataReserva;
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
@@ -29,6 +36,22 @@ public class Reserva {
 
 	public String getNomeResponsavel() {
 		return nomeResponsavel;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
 	}
 
 	public void setNomeResponsavel(String nomeResponsavel) {
@@ -75,7 +98,9 @@ public class Reserva {
 	           "\nData Reserva = " + dataReserva.format(fmt) + 
 	           "\nData Entrada = " + dataEntrada + 
 	           "\nData Saida = " + dataSaida + 
-	           "\nSituação Reserva = " + situcacaoReseva;
+	           "\nSituação Reserva = " + situcacaoReseva +
+	    		"\nEmail = " + email + 
+	    		"\nDocumento = " + documento;
 	}
 
 	

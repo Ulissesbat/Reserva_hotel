@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
@@ -11,16 +12,23 @@ import java.util.Scanner;
 import entities.Apartamento;
 import entities.CheckInOut;
 import entities.Despesas;
+import entities.Hospede;
 import entities.Reserva;
 import entities.enums.SituacaoApartamento;
 import entities.enums.SituacaoReserva;
+import model.dao.DaoFactory;
+import model.dao.HospedeDao;
 
 public class Program {
 
-	@SuppressWarnings("null")
+	
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
+		
+		Hospede hospede = new Hospede();
+		new DaoFactory();
+		HospedeDao hospedeDao = DaoFactory.createHospedeDao();
 
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		DateTimeFormatter fmt1 = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -30,6 +38,10 @@ public class Program {
 		System.out.println();
 		System.out.println("Nome do responsavel: ");
 		String nome = sc.nextLine();
+		System.out.println("E-mail: ");
+		String email = sc.nextLine();
+		System.out.println("Documento: ");
+		String documento = sc.nextLine();
 		LocalDateTime dataHoraAtual = LocalDateTime.now();
 		System.out.println("Data e hora da reserva: " + fmt1.format(dataHoraAtual));
 
@@ -80,7 +92,7 @@ public class Program {
 
 		SituacaoReserva situacaoReserva = SituacaoReserva.valueOf(situacaoInput);
 
-		Reserva reserva = new Reserva(nome, dataHoraAtual, dataEntrada, dataSaida, situacaoReserva);
+		Reserva reserva = new Reserva(nome, email, documento, dataHoraAtual, dataEntrada, dataSaida, situacaoReserva);
 
 		System.out.println(reserva);
 
@@ -178,6 +190,12 @@ public class Program {
 			}
 
 		}
+		
+		hospede = new Hospede(null, hospede.getNome(), new Date(), hospede.getEntrada(), hospede.getSaida(), hospede.getTipo(), 
+									  hospede.getNumero(), hospede.getSituacaoReserva(), hospede.getEmail(), hospede.getDocumento(), 
+									  hospede.getValorDiaria(), hospede.getValorTotal());
+		hospedeDao.insert(hospede);
+		System.out.println("Inserted! New id = " + hospede.getId());
 
 		sc.close();
 	}

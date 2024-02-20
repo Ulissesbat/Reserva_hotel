@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -9,8 +10,10 @@ import entities.enums.SituacaoReserva;
 import entities.interfaces.ApartamentoInterface;
 import entities.interfaces.ReservaInterface;
 
-public class CheckInOut implements ReservaInterface, ApartamentoInterface {
+public class CheckInOut implements ReservaInterface, ApartamentoInterface, Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Reserva reserva;
 	private Apartamento apartamento;
 	private LocalDate entrada;

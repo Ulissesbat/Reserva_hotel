@@ -1,10 +1,14 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Despesas {
+public class Despesas implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
+	
 	Map<String, Double> produtos = new HashMap<>();
 
 	public Despesas() {
