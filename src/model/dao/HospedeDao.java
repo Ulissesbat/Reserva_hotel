@@ -10,6 +10,5 @@ public interface HospedeDao {
 	void update(Hospede obj);
 	void deletById(Integer id);
 	Hospede findById(Integer id);
-	List<HospedeDao> findAll();
-	List<Hospede> findByHospede(Hospede Hospede);
+	List<Hospede> findAll();
 }

@@ -27,6 +27,7 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		
 		Hospede hospede = new Hospede();
+		CheckInOut out = new CheckInOut();
 		new DaoFactory();
 		HospedeDao hospedeDao = DaoFactory.createHospedeDao();
 
@@ -176,7 +177,7 @@ public class Program {
 				    }while(resposta == 's');
 				}
 
-				CheckInOut out = new CheckInOut(reserva.getDataEntrada(), reserva.getDataSaida(), apartamento,
+				out = new CheckInOut(reserva.getDataEntrada(), reserva.getDataSaida(), apartamento,
 						notaFiscal, cupomFiscal, despesas, placa);
 
 				System.out.println("-------------CheckOut Realizado com sucesso!------------");
@@ -191,9 +192,9 @@ public class Program {
 
 		}
 		
-		hospede = new Hospede(null, hospede.getNome(), new Date(), hospede.getEntrada(), hospede.getSaida(), hospede.getTipo(), 
-									  hospede.getNumero(), hospede.getSituacaoReserva(), hospede.getEmail(), hospede.getDocumento(), 
-									  hospede.getValorDiaria(), hospede.getValorTotal());
+		hospede = new Hospede(null, reserva.getNomeResponsavel(), reserva.getDataEntrada(), reserva.getDataSaida(), apartamento.getTipo(), 
+									  apartamento.getNumero(), reserva.getSitucacaoReseva(), reserva.getEmail(), reserva.getDocumento(), 
+									  apartamento.getValorDiaria(),out.TotalEstadia());
 		hospedeDao.insert(hospede);
 		System.out.println("Inserted! New id = " + hospede.getId());
 

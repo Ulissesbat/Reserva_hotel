@@ -44,6 +44,10 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface, Seria
 
 	}
 
+	public CheckInOut() {
+		
+	}
+
 	public Reserva getReserva() {
 		return reserva;
 	}
@@ -119,7 +123,7 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface, Seria
 	public double TotalEstadia() {
 	
 		// Adicionar despesas adicionais, se houver
-		double valorTotal = ValorBaseEstadia(entrada, entrada) + (despesas != null ? despesas.totalDespesas() : 0.0);
+		double valorTotal = ValorBaseEstadia(entrada, saida) + (despesas != null ? despesas.totalDespesas() : 0.0);
 
 		return valorTotal;
 	}
@@ -198,7 +202,7 @@ public class CheckInOut implements ReservaInterface, ApartamentoInterface, Seria
 			double estadiaSemDespesas = ValorBaseEstadia(entrada, saida);
 			sb.append("\n");
 			sb.append("  Estadia = ").append(String.format("%.2f", estadiaSemDespesas)).append("\n");
-			sb.append("  Valor total = ").append(String.format("%.2f", TotalEstadia())).append("\n");
+			sb.append("  Valor total com despesas = ").append(String.format("%.2f", TotalEstadia())).append("\n");
 			sb.append("  Despesas adicionais = ").append(String.format("%.2f", despesas.totalDespesas())).append("\n");
 			sb.append("\n");
 			sb.append("Produtos consumidos:\n");

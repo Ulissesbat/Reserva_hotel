@@ -1,6 +1,6 @@
 package entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import entities.enums.SituacaoReserva;
 
@@ -8,9 +8,8 @@ public class Hospede {
 	
 	private Integer id;
 	private String Nome;
-	private Date dataReserva;
-	private Date entrada;
-	private Date saida;
+	private LocalDate entrada;
+	private LocalDate saida;
 	private String tipo;
 	private Integer numero;
 	
@@ -25,12 +24,11 @@ public class Hospede {
 		
 	}
 
-	public Hospede(Integer id, String nome, Date dataReserva, Date entrada, Date saida, String tipo, Integer numero,
+	public Hospede(Integer id, String nome, LocalDate entrada, LocalDate saida, String tipo, Integer numero,
 			SituacaoReserva situacaoReserva, String email, String documento, Double valorDiaria, Double valorTotal) {
 		
 		this.Nome = nome;
 		this.id = id;
-		this.dataReserva = dataReserva;
 		this.entrada = entrada;
 		this.saida = saida;
 		this.tipo = tipo;
@@ -58,27 +56,19 @@ public class Hospede {
 		Nome = nome;
 	}
 
-	public Date getDataReserva() {
-		return dataReserva;
-	}
-
-	public void setDataReserva(Date dataReserva) {
-		this.dataReserva = dataReserva;
-	}
-
-	public Date getEntrada() {
+	public LocalDate getEntrada() {
 		return entrada;
 	}
 
-	public void setEntrada(Date entrada) {
+	public void setEntrada(LocalDate entrada) {
 		this.entrada = entrada;
 	}
 
-	public Date getSaida() {
+	public LocalDate getSaida() {
 		return saida;
 	}
 
-	public void setSaida(Date saida) {
+	public void setSaida(LocalDate saida) {
 		this.saida = saida;
 	}
 
@@ -141,8 +131,7 @@ public class Hospede {
 	@Override
 	public String toString() {
 		return "\nHospede "
-				+ "\nNome = " + Nome + 
-				"\n, dataReserva = " + dataReserva + 
+				+ "\nNome = " + Nome +
 				"\n, entrada = " + entrada + 
 				"\n, saida = " + saida + 
 				"\n, situacaoReserva = " + situacaoReserva + 
@@ -153,7 +142,5 @@ public class Hospede {
 				"\n, Numero do Apartamento = " + numero +
 				"\n, Valor Total  = " + valorTotal;
 	}
-	
-	
 
 }
